@@ -23,6 +23,13 @@ class TicTacToe:
     def __bool__(self): # возвращает True, если игра не окончена (никто не победил и есть свободные клетки) и False - в противном случае
         return self.computer_win == False and self.human_win == False
 
+    def show(self): # отображение текущего состояния игрового поля
+        for x in self.pole:
+            ls = []
+            for i in x:
+                ls.append(i.value)
+            print (ls)
+
     def __check(self, item): # проверка верности индексов
         if type(item) != tuple or len(item) !=2:
             raise IndexError('некорректно указанные индексы')
@@ -37,9 +44,12 @@ class TicTacToe:
     def __setitem__(self, key, value): # запись нового значения в клетку с индексами
         self.__check(key)
         r, c = key
-        if self.pole[r][c] != self.FREE_CELL:
+        if self.pole[r][c].value != self.FREE_CELL:
             raise ValueError('клетка уже занята')
         self.pole[r][c].value = value
+
+    def human_go(self, key):
+        value = self.HUMAN_X
 
     @property
     def is_human_win(self): # возвращает True, если победил человек, иначе - False
@@ -47,6 +57,7 @@ class TicTacToe:
             return True
         else:
             return False
+
     @property
     def is_computer_win(self): # возвращает True, если победил компьютер, иначе - False
         if self.computer_win == True:
